@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="text">
+  <button>点击</button>
+
+  <script>
+    function debounce (fn, delay) {
+      // 1.用于记录上一次事件触发的timer
+      let timer = null
+
+      // 2.触发事件时执行的函数
+      const _debounce = () => {
+        // 2.1.如果有再次触发事件（更多次触发）事件，取消上一次事件
+        timer && clearTimeout(timer)
+
+        // 2.2.延迟执行对应的fn函数（传入的回调函数）
+        timer = setTimeout(() => {
+          fn()
+          // 执行函数之后，timer初始化
+          timer = null
+        }, delay)
+      }
+      return _debounce
+    }
+  </script>
+
+  <script>
+    const input = document.querySelector('input')
+    let counter = 1
+    input.oninput = debounce(function () {
+      console.log(`发送网络请求${counter++}`, this.value);
+    }, 1000)
+  </script>
+</body>
+</html>
